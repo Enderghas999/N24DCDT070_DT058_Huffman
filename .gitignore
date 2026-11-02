@@ -4,3 +4,8 @@
 Thumbs.db
 *.tmp
 ~$*
+
+# Web DT058
+web/data/
+web/huffman_app.exe
+web/tests/kiem_tra.exe

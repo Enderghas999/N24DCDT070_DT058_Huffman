@@ -1,0 +1,132 @@
+[DAT] VD01 | Ví dụ của đề | A B C D, f = 5 9 12 13
+    dat đầu vào hợp lệ
+    dat tổng bit = 78  -> thực tế 78
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 78
+    dat không mã nào là tiền tố của mã khác  -> 00, 01, 10, 11
+    dat số phép so sánh = (m − 1)² = 9  -> thực tế 9
+    dat bảng mã = 00, 01, 10, 11  -> thực tế 00, 01, 10, 11
+    dat chuỗi bit = 00011011  -> thực tế 00011011
+    dat giải mã lại được "ABCD"  -> thực tế "ABCD"
+[DAT] VD02 | Ví dụ của đề | A B, f = 2 3, chuỗi ABBA
+    dat đầu vào hợp lệ
+    dat tổng bit = 5  -> thực tế 5
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 5
+    dat không mã nào là tiền tố của mã khác  -> 0, 1
+    dat số phép so sánh = (m − 1)² = 1  -> thực tế 1
+    dat bảng mã = 0, 1  -> thực tế 0, 1
+    dat chuỗi bit = 0110  -> thực tế 0110
+    dat giải mã lại được "ABBA"  -> thực tế "ABBA"
+[DAT] TK01 | Tự thiết kế | Tần suất không sắp tăng: f = 1 4 2 5
+    dat đầu vào hợp lệ
+    dat tổng bit = 22  -> thực tế 22
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 22
+    dat không mã nào là tiền tố của mã khác  -> 100, 11, 101, 0
+    dat số phép so sánh = (m − 1)² = 9  -> thực tế 9
+    dat bảng mã = 100, 11, 101, 0  -> thực tế 100, 11, 101, 0
+    dat chuỗi bit = 100101011  -> thực tế 100101011
+    dat giải mã lại được "ACDB"  -> thực tế "ACDB"
+[DAT] TK02 | Tự thiết kế | Nhiều trọng số hòa: 2 2 4 4 8
+    dat đầu vào hợp lệ
+    dat tổng bit = 44  -> thực tế 44
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 44
+    dat không mã nào là tiền tố của mã khác  -> 100, 101, 00, 01, 11
+    dat số phép so sánh = (m − 1)² = 16  -> thực tế 16
+    dat giải mã lại được "EDCBA"  -> thực tế "EDCBA"
+[DAT] TK03 | Tự thiết kế | Dãy Fibonacci 1 1 2 3 5 8 13 21: cây lệch, mã dài m − 1
+    dat đầu vào hợp lệ
+    dat tổng bit = 132  -> thực tế 132
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 132
+    dat không mã nào là tiền tố của mã khác  -> 1111110, 1111111, 111110, 11110, 1110, 110, 10, 0
+    dat số phép so sánh = (m − 1)² = 49  -> thực tế 49
+    dat bảng mã = 1111110, 1111111, 111110, 11110, 1110, 110, 10, 0  -> thực tế 1111110, 1111111, 111110, 11110, 1110, 110, 10, 0
+    dat giải mã lại được "AH"  -> thực tế "AH"
+[DAT] KT09 | Tự thiết kế | Tần suất lệch mạnh: 1 1 8
+    dat đầu vào hợp lệ
+    dat tổng bit = 12  -> thực tế 12
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 12
+    dat không mã nào là tiền tố của mã khác  -> 00, 01, 1
+    dat số phép so sánh = (m − 1)² = 4  -> thực tế 4
+    dat bảng mã = 00, 01, 1  -> thực tế 00, 01, 1
+    dat giải mã lại được "CCAB"  -> thực tế "CCAB"
+[DAT] BIEN01 | Biên | m = 1: mã của ký tự duy nhất là 0
+    dat đầu vào hợp lệ
+    dat tổng bit = 7  -> thực tế 7
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 7
+    dat không mã nào là tiền tố của mã khác  -> 0
+    dat số phép so sánh = (m − 1)² = 0  -> thực tế 0
+    dat bảng mã = 0  -> thực tế 0
+    dat chuỗi bit = 000  -> thực tế 000
+    dat giải mã lại được "AAA"  -> thực tế "AAA"
+[DAT] BIEN02 | Biên | m = 2 (nhỏ nhất có ghép)
+    dat đầu vào hợp lệ
+    dat tổng bit = 101  -> thực tế 101
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 101
+    dat không mã nào là tiền tố của mã khác  -> 1, 0
+    dat số phép so sánh = (m − 1)² = 1  -> thực tế 1
+    dat bảng mã = 1, 0  -> thực tế 1, 0
+    dat chuỗi bit = 101  -> thực tế 101
+    dat giải mã lại được "XYX"  -> thực tế "XYX"
+[DAT] BIEN03 | Biên | m = 8, mọi f = 5: cây cân bằng, mọi mã dài 3
+    dat đầu vào hợp lệ
+    dat tổng bit = 120  -> thực tế 120
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 120
+    dat không mã nào là tiền tố của mã khác  -> 000, 001, 010, 011, 100, 101, 110, 111
+    dat số phép so sánh = (m − 1)² = 49  -> thực tế 49
+    dat bảng mã = 000, 001, 010, 011, 100, 101, 110, 111  -> thực tế 000, 001, 010, 011, 100, 101, 110, 111
+[DAT] BIEN04 | Biên | f nhỏ nhất, hòa toàn bộ: 1 1 1
+    dat đầu vào hợp lệ
+    dat tổng bit = 5  -> thực tế 5
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 5
+    dat không mã nào là tiền tố của mã khác  -> 10, 11, 0
+    dat số phép so sánh = (m − 1)² = 4  -> thực tế 4
+    dat bảng mã = 10, 11, 0  -> thực tế 10, 11, 0
+    dat giải mã lại được "ABC"  -> thực tế "ABC"
+[DAT] BIEN05 | Biên | m = 8, mọi f = 100 (lớn nhất)
+    dat đầu vào hợp lệ
+    dat tổng bit = 2400  -> thực tế 2400
+    dat bằng tổng bit tối ưu của oracle (duyệt độ dài mã)  -> oracle 2400
+    dat không mã nào là tiền tố của mã khác  -> 000, 001, 010, 011, 100, 101, 110, 111
+    dat số phép so sánh = (m − 1)² = 49  -> thực tế 49
+[DAT] HAM01 | Hàm con | lay_hai_nho_nhat khi hòa, trọng số 4 2 2 5
+    dat vt1 = 1 (nút đứng trước khi hòa)  -> thực tế 1
+    dat vt2 = 2  -> thực tế 2
+    dat đúng 2k − 3 = 5 phép so sánh  -> thực tế 5
+[DAT] HAM02 | Hàm con | khong_tien_to với bộ mã sai và bộ mã đúng
+    dat {0, 01, 11} trả về sai  -> 0 là tiền tố của 01
+    dat {0, 10, 11} trả về đúng
+[DAT] VET01 | Mô phỏng | Vết của trang web khớp kết quả chạy thuần (f = 5 9 12 13 16)
+    dat bảng mã giống nhau  -> 100, 101, 00, 01, 11
+    dat bộ đếm so sánh giống nhau  -> 16 / 16
+    dat tổng bit = 124  -> thực tế 124
+    dat số lời gọi tao_ma = 2m − 1 = 9  -> thực tế 9
+[DAT] LOI01 | Đầu vào không hợp lệ | m = 0 (không có ký tự)
+    dat bị từ chối kèm thông báo  -> Cần nhập ít nhất 1 ký tự (m = 0 không hợp lệ).
+[DAT] LOI02 | Đầu vào không hợp lệ | m = 9 vượt giới hạn
+    dat bị từ chối kèm thông báo  -> Số ký tự m = 9 vượt giới hạn của phiếu (1 ≤ m ≤ 8).
+[DAT] LOI03 | Đầu vào không hợp lệ | Ký tự trùng
+    dat bị từ chối kèm thông báo  -> Ký tự 'A' bị trùng; các ký tự phải khác nhau.
+[DAT] LOI04 | Đầu vào không hợp lệ | Tần suất 0
+    dat bị từ chối kèm thông báo  -> Tần suất "0" không hợp lệ: phải là số nguyên từ 1 đến 100.
+[DAT] LOI05 | Đầu vào không hợp lệ | Tần suất 101
+    dat bị từ chối kèm thông báo  -> Tần suất "101" không hợp lệ: phải là số nguyên từ 1 đến 100.
+[DAT] LOI06 | Đầu vào không hợp lệ | Tần suất không phải số
+    dat bị từ chối kèm thông báo  -> Tần suất "x" không hợp lệ: phải là số nguyên từ 1 đến 100.
+[DAT] LOI07 | Đầu vào không hợp lệ | Số tần suất khác số ký tự
+    dat bị từ chối kèm thông báo  -> Cần đúng 3 tần suất (đã nhập 2).
+[DAT] LOI08 | Đầu vào không hợp lệ | Ký tự nhiều chữ (AB)
+    dat bị từ chối kèm thông báo  -> Mỗi ký tự phải là đúng một ký tự, các ký tự cách nhau bằng dấu cách ("AB" không hợp lệ).
+[DAT] LOI09 | Đầu vào không hợp lệ | Ký tự tiếng Việt có dấu (nhiều byte)
+    dat bị từ chối kèm thông báo  -> Mỗi ký tự phải là đúng một ký tự, các ký tự cách nhau bằng dấu cách ("Ă" không hợp lệ).
+[DAT] LOI10 | Đầu vào không hợp lệ | Chuỗi thử có ký tự ngoài bảng
+    dat bị từ chối kèm thông báo  -> Chuỗi thử có ký tự 'Z' không nằm trong bảng; hãy sửa hoặc để trống.
+[DAT] NN01 | Tính chất | 2000 bảng ngẫu nhiên (m = 1..8, f = 1..100, hạt giống 2026)
+    dat m mã, mỗi mã khác rỗng  -> 2000/2000
+    dat không mã nào là tiền tố của mã khác  -> 2000/2000
+    dat Σ 2^−độ dài = 1 (cây đầy đủ)  -> 2000/2000
+    dat tổng bit = tổng trọng số các nút cha  -> 2000/2000
+    dat tổng bit = tối ưu theo oracle duyệt độ dài mã  -> 2000/2000
+    dat giải mã(mã hóa(s)) = s  -> 2000/2000
+    dat số phép so sánh = (m − 1)²  -> 2000/2000
+    dat trọng số gốc = Σ f  -> 2000/2000
+
+TONG KET: 25/25 ca dat, 105/105 phep kiem dat (4.4919 ms)

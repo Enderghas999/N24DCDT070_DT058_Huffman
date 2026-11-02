@@ -1,0 +1,24 @@
+# Render Blueprint cho DT058 - Ma Huffman.
+# Tao 1 web service (Docker, thu muc web/) va 1 co so du lieu PostgreSQL de luu
+# lich su ben vung. Bien DATABASE_URL duoc Render tu dien tu co so du lieu.
+# Luu y goi Free: web ngu sau 15 phut khong co truy cap (lan mo dau cham);
+# PostgreSQL Free het han sau 30 ngay (xem https://render.com/docs/free).
+services:
+  - type: web
+    name: dt058-huffman
+    runtime: docker
+    plan: free
+    dockerfilePath: ./web/Dockerfile
+    dockerContext: ./web
+    healthCheckPath: /api/moi_truong
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dt058-huffman-db
+          property: connectionString
+
+databases:
+  - name: dt058-huffman-db
+    plan: free
+    databaseName: huffman
+    user: huffman

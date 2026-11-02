@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DT058 · Mã Huffman từ bảng tần suất nhỏ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232563eb'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="badge">DT058</span>
+    <h1>Web Thuật Toán Mã Huffman <span class="sub">từ bảng tần suất nhỏ</span></h1>
+  </div>
+  <div class="who">
+    <span>Sinh viên thực hiện: <b>Đặng Thế Phú (N24DCDT070)</b> · D24CQDT01-N · Nhóm 03</span>
+    <button id="theme" class="icon-btn" aria-label="Đổi giao diện sáng/tối" title="Đổi giao diện sáng/tối">◐</button>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ====================== CỘT TRÁI: CẤU HÌNH ====================== -->
+  <aside class="col col-left">
+    <section class="panel">
+      <h2 class="panel-h">Cấu hình bài toán</h2>
+      <div class="panel-b">
+        <label for="kt">Các ký tự (1 ≤ m ≤ 8, cách nhau bằng dấu cách)</label>
+        <input id="kt" type="text" autocomplete="off" spellcheck="false" placeholder="A B C D">
+        <label for="f">Tần suất tương ứng (số nguyên 1..100)</label>
+        <input id="f" type="text" autocomplete="off" spellcheck="false" placeholder="5 9 12 13">
+        <label for="s">Chuỗi thử mã hóa / giải mã (tùy chọn)</label>
+        <input id="s" type="text" autocomplete="off" spellcheck="false" placeholder="ABCD">
+        <label for="mode">Chế độ</label>
+        <select id="mode">
+          <option value="tinh">Tính kết quả (bảng mã ngay)</option>
+          <option value="hoc" selected>Học từng bước</option>
+          <option value="luyen">Luyện tập (dự đoán trước bước tiếp)</option>
+        </select>
+        <div class="presets" id="presets" aria-label="Dữ liệu mẫu"></div>
+        <button id="run" class="btn primary wide">Chạy thuật toán</button>
+        <div id="err" class="err" role="alert"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="resPanel" hidden>
+      <h2 class="panel-h">Kết quả</h2>
+      <div class="panel-b">
+        <div class="stat-row">
+          <div class="stat"><span class="stat-l">Tổng số bit</span><span class="stat-v" id="rBits">–</span></div>
+          <div class="stat"><span class="stat-l">Trọng số gốc</span><span class="stat-v small" id="rRoot">–</span></div>
+        </div>
+        <div class="tbl-wrap"><table class="tbl" id="rTable">
+          <thead><tr><th>Ký tự</th><th>f</th><th>Mã</th><th>Độ dài</th><th>f × độ dài</th></tr></thead>
+          <tbody></tbody></table></div>
+        <p class="kv" id="rPrefix"></p>
+        <div id="rEnc"></div>
+      </div>
+    </section>
+  </aside>
+
+  <!-- ====================== CỘT GIỮA ====================== -->
+  <section class="col col-mid">
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="mo-phong" role="tab">Mô phỏng thuật toán</button>
+      <button class="tab" data-tab="danh-gia" role="tab">Đánh giá thuật toán</button>
+      <button class="tab" data-tab="kiem-tra" role="tab">Kiểm tra tính đúng</button>
+    </nav>
+
+    <!-- ---------- Tab 1: mô phỏng ---------- -->
+    <div class="tabpane" id="tab-mo-phong">
+      <div class="panel">
+        <h2 class="panel-h">Mô phỏng thuật toán tham lam <span class="phase" id="phase"></span></h2>
+        <div class="panel-b">
+          <p class="empty" id="simEmpty">Nhập bảng tần suất ở cột bên trái rồi bấm <b>Chạy thuật toán</b>.</p>
+          <div id="sim" hidden>
+            <div class="notice" id="notice" hidden></div>
+            <div class="controls">
+              <button class="btn" id="bFirst" title="Về bước đầu">⏮</button>
+              <button class="btn" id="bPrev" title="Lùi một bước">◀ Lùi</button>
+              <button class="btn primary" id="bPlay">▶ Tự chạy</button>
+              <button class="btn" id="bNext" title="Tiến một bước">Tiến ▶</button>
+              <button class="btn" id="bLast" title="Đến bước cuối">⏭</button>
+              <label class="speed">Tốc độ <input type="range" id="speed" min="1" max="5" value="3"> <span id="speedV">1×</span></label>
+              <span class="pos" id="pos"></span>
+            </div>
+            <input type="range" id="scrub" min="0" max="0" value="0" aria-label="Chọn bước">
+            <div class="explain" id="explain" aria-live="polite"></div>
+
+            <div class="quiz" id="quiz" hidden></div>
+
+            <div class="grid2">
+              <div class="card">
+                <h3>Cây / rừng Huffman</h3>
+                <div class="legend">
+                  <span><i class="sw sw-cur"></i>đang xét</span>
+                  <span><i class="sw sw-m1"></i>nhỏ nhất (vt1)</span>
+                  <span><i class="sw sw-m2"></i>nhỏ nhì (vt2)</span>
+                  <span><i class="sw sw-new"></i>vừa tạo / vừa gán mã</span>
+                </div>
+                <div class="tree-wrap"><svg id="tree" role="img" aria-label="Rừng cây Huffman ở bước hiện tại"></svg></div>
+              </div>
+              <div class="card">
+                <h3>Danh sách ds <span class="muted">(các gốc chưa ghép)</span></h3>
+                <div class="ds" id="ds"></div>
+                <div class="counters" id="counters"></div>
+                <h3>Ngăn xếp lời gọi</h3>
+                <ol class="stack" id="stack"></ol>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Mã giả <span class="muted">(dòng đang thực hiện được tô sáng; số dòng khớp với huffman_core.hpp)</span></h3>
+              <ol class="code" id="code"></ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Tab 2: đánh giá ---------- -->
+    <div class="tabpane" id="tab-danh-gia" hidden>
+      <div class="panel">
+        <h2 class="panel-h">Lần chạy hiện tại</h2>
+        <div class="panel-b">
+          <p class="empty" id="evEmpty">Chưa có lần chạy nào.</p>
+          <div id="evCur" hidden></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2 class="panel-h">Thực nghiệm theo kích thước m</h2>
+        <div class="panel-b">
+          <p class="muted">Phiếu giới hạn m ≤ 8; thực nghiệm dưới đây dùng bảng tần suất ngẫu nhiên (1..100, có hạt giống) với m lớn hơn để thấy chi phí tăng theo m. Thời gian đo trên máy chủ, không gồm truyền dữ liệu hay vẽ giao diện. Mỗi cấu hình chạy lặp và lấy trung vị.</p>
+          <div class="form-row">
+            <label>Các giá trị m <input id="bM" type="text" value="2,4,8,16,32,64,128,256,512,1024"></label>
+            <label>Số lần lặp <input id="bLap" type="number" min="1" max="30" value="10"></label>
+            <label>Hạt giống <input id="bSeed" type="number" value="1"></label>
+            <button class="btn primary" id="bRun">Chạy thực nghiệm</button>
+            <button class="btn" id="bStop" disabled>Dừng</button>
+          </div>
+          <div class="err" id="bErr"></div>
+          <div id="bOut"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Tab 3: kiểm tra ---------- -->
+    <div class="tabpane" id="tab-kiem-tra" hidden>
+      <div class="panel">
+        <h2 class="panel-h">Bộ kiểm tra tính đúng</h2>
+        <div class="panel-b">
+          <p class="muted">Gồm ví dụ của đề, ca tự thiết kế, ca biên, hàm con, khớp vết mô phỏng, dữ liệu không hợp lệ và các tính chất kiểm trên bảng ngẫu nhiên. Nguồn đối chiếu độc lập: duyệt mọi bộ độ dài mã thỏa bất đẳng thức Kraft để tìm tổng bit nhỏ nhất (không dùng quy tắc ghép tham lam).</p>
+          <div class="form-row">
+            <label>Số bảng ngẫu nhiên <input id="tN" type="number" min="1" max="50000" value="2000"></label>
+            <label>Hạt giống <input id="tSeed" type="number" value="2026"></label>
+            <button class="btn primary" id="tRun">Chạy bộ kiểm tra</button>
+          </div>
+          <div id="tOut"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== CỘT PHẢI ====================== -->
+  <aside class="col col-right">
+    <section class="panel log-panel">
+      <h2 class="panel-h">Nhật ký thực thi</h2>
+      <div class="status" id="status">Hệ thống chưa chạy...</div>
+      <ol class="log" id="log"></ol>
+    </section>
+    <section class="panel">
+      <h2 class="panel-h">Lịch sử gần đây <span class="muted small" id="histStore"></span></h2>
+      <div class="panel-b">
+        <div class="tbl-wrap"><table class="tbl hist" id="hist">
+          <thead><tr><th>Thời điểm</th><th>Ký tự / f</th><th>Bit</th><th>Hành động</th></tr></thead>
+          <tbody><tr><td colspan="4" class="muted">Đang tải…</td></tr></tbody></table></div>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<footer class="foot">INT13185 · Cấu trúc dữ liệu &amp; Giải thuật · Giáo trình INT1306, Chương 4, bài tập câu 38 «Mã Huffman» (trang in 112, trang PDF 124). Thuật toán: tham lam, tìm hai nút nhỏ nhất bằng quét tuyến tính.</footer>
+
+<div class="tip" id="tip" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
