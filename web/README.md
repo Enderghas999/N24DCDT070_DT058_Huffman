@@ -1,6 +1,6 @@
 # Web trực quan hóa và đánh giá thuật toán Huffman (DT058)
 
-Ứng dụng web cho đề tài **DT058 — Tạo mã Huffman từ bảng tần suất nhỏ** (INT13185), viết theo bản *Đề xuất nâng cấp web* ngày 19/10/2026 của giảng viên. Toàn bộ thuật toán chạy ở máy chủ **C++17**. Trình duyệt chỉ hiển thị kết quả và các sự kiện do máy chủ ghi lại.
+Ứng dụng web cho đề tài **DT058 — Tạo mã Huffman từ bảng tần suất nhỏ** (INT13185), viết dựa theo bản *Đề xuất nâng cấp web* ngày 19/10/2026 của giảng viên. Toàn bộ thuật toán chạy ở máy chủ **C++17**. Trình duyệt chỉ hiển thị kết quả và các sự kiện do máy chủ ghi lại.
 
 - **Sinh viên:** Đặng Thế Phú — N24DCDT070 — D24CQDT01-N — Nhóm 03
 - **Thuật toán:** chỉ dùng **tham lam**. Mỗi vòng tìm hai nút có trọng số nhỏ nhất bằng cách quét tuyến tính danh sách `ds` (không dùng heap), ghép chúng thành nút cha, lặp đến khi còn một gốc. Thuật toán giống `src/huffman.cpp`.
