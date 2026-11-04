@@ -11,7 +11,7 @@ RUN g++ -std=c++17 -O2 -DUSE_PG -I/usr/include/postgresql server.cpp -o huffman_
 
 # Buoc 2: anh chay gon nhe
 FROM ubuntu:24.04
-RUN apt-get update && apt-get install -y --no-install-recommends libpq5 ca-certificates \
+RUN apt-get update && apt-get install -y --no-install-recommends libpq5 ca-certificates curl \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=build /src/huffman_app /app/huffman_app

@@ -33,6 +33,7 @@
 
 #include "bo_kiem_tra.hpp"
 #include "huffman_core.hpp"
+#include "upstash_cache.hpp"
 
 #include <algorithm>
 #include <chrono>
@@ -166,7 +167,8 @@ static string moi_truong_json(const string &kieu_luu) {
     << ",\"toi_uu\":" << json_str(toi_uu)
     << ",\"so_luong_cpu\":" << thread::hardware_concurrency()
     << ",\"dong_ho\":\"std::chrono::steady_clock\""
-    << ",\"luu_lich_su\":" << json_str(kieu_luu) << "}";
+    << ",\"luu_lich_su\":" << json_str(kieu_luu)
+    << ",\"cache_redis\":" << json_str(uc::bat() ? "BAT" : "TAT") << "}";
   return o.str();
 }
 
@@ -342,6 +344,17 @@ static string bang_noi(const vector<int> &v) {
   return s;
 }
 
+// Ghep phan hoi: phan "rest" (da co the lay tu Upstash) + cac truong luon moi
+static string ghep_phan_hoi(long long id, const string &tt, double ms,
+                            const string &rest) {
+  ostringstream o;
+  o.setf(ios::fixed);
+  o.precision(1);
+  o << "{\"id_lich_su\":" << id << ",\"cache\":\"" << tt
+    << "\",\"xu_ly_server_ms\":" << ms << "," << rest;
+  return o.str();
+}
+
 static string xu_ly_chay(const httplib::Request &req, LuuTru &luu, int &status) {
   auto t_bat_dau = chrono::steady_clock::now();
   string kt_raw = req.get_param_value("kt"), f_raw = req.get_param_value("f"),
@@ -356,6 +369,27 @@ static string xu_ly_chay(const httplib::Request &req, LuuTru &luu, int &status) 
     return loi_json(loi);
   }
   const int m = (int)f.size();
+
+  // (0) Bo nho dem Upstash Redis: cung dau vao thi lay ket qua da tinh
+  string tt = "off";
+  string khoa_cache;
+  if (uc::bat()) {
+    khoa_cache = uc::rut_gon("huffman:v2:" + che_do + "|" +
+                             string(kt.begin(), kt.end()) + "|" + bang_noi(f) +
+                             "|" + s);
+    string gt;
+    int kq = uc::lay(khoa_cache, gt);
+    size_t cat_vt = gt.find('\n');
+    if (kq == 1 && cat_vt != string::npos) {
+      long long id_hit = luu.them(gt.substr(0, cat_vt)); // van ghi lich su
+      double ms_hit = chrono::duration<double, milli>(
+                          chrono::steady_clock::now() - t_bat_dau)
+                          .count();
+      cout << "[Upstash] HIT  " << khoa_cache << endl;
+      return ghep_phan_hoi(id_hit, "HIT", ms_hit, gt.substr(cat_vt + 1));
+    }
+    tt = (kq == 0 || kq == 1) ? "MISS" : "loi";
+  }
 
   // (a) Chay co ghi vet cho mo phong
   hf::GhiVet gv;
@@ -402,7 +436,7 @@ static string xu_ly_chay(const httplib::Request &req, LuuTru &luu, int &status) 
   ostringstream o;
   o.setf(ios::fixed);
   o.precision(1);
-  o << "{\"id_lich_su\":" << id << ",\"m\":" << m << ",\"kt\":[";
+  o << "\"m\":" << m << ",\"kt\":[";
   for (int i = 0; i < m; i++)
     o << (i ? "," : "") << json_str(string(1, kt[i]));
   o << "],\"f\":" << hf::json_ints(f) << ",\"s\":" << json_str(s)
@@ -427,11 +461,18 @@ static string xu_ly_chay(const httplib::Request &req, LuuTru &luu, int &status) 
     << "},\"bi_cat\":" << (gv.bi_cat ? "true" : "false") << ",\"su_kien\":[";
   for (size_t i = 0; i < gv.su_kien.size(); i++)
     o << (i ? "," : "") << gv.su_kien[i];
+  o << "]}";
+  string rest = o.str();
+  if (uc::bat()) {
+    if (tt == "MISS" && !uc::dat(khoa_cache, ls.str() + "\n" + rest, 3600))
+      tt = "loi";
+    cout << "[Upstash] " << (tt == "MISS" ? "MISS " : "LOI  ") << khoa_cache
+         << endl;
+  }
   double xu_ly_ms = chrono::duration<double, milli>(chrono::steady_clock::now() -
                                                     t_bat_dau)
                         .count();
-  o << "],\"xu_ly_server_ms\":" << xu_ly_ms << "}";
-  return o.str();
+  return ghep_phan_hoi(id, tt, xu_ly_ms, rest);
 }
 
 static string xu_ly_danh_gia(const httplib::Request &req, int &status) {
@@ -577,6 +618,8 @@ int main() {
        << "  DT058 - Ma Huffman (INT13185) - Dang The Phu - N24DCDT070\n"
        << "  Mo trinh duyet: http://localhost:" << cong << "\n"
        << "  Luu lich su   : " << luu->ten() << "\n"
+       << "  Upstash Redis (bo nho dem): " << (uc::bat() ? "BAT" : "TAT")
+       << "\n"
        << "  Nhan Ctrl+C de dung.\n"
        << "=================================================\n";
   if (!svr.listen("0.0.0.0", cong)) {

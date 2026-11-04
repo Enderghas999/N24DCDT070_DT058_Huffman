@@ -129,4 +129,4 @@
     dat số phép so sánh = (m − 1)²  -> 2000/2000
     dat trọng số gốc = Σ f  -> 2000/2000
 
-TONG KET: 25/25 ca dat, 105/105 phep kiem dat (4.4919 ms)
+TONG KET: 25/25 ca dat, 105/105 phep kiem dat (3.3463 ms)

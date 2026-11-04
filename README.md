@@ -168,7 +168,7 @@ g++ -O2 -std=c++17 test/runtests.cpp -o test/runtests.exe
 - `2`: nhập bảng tần suất từ bàn phím (số ký tự → các ký tự trên một dòng → các tần suất trên một dòng → chuỗi thử, có thể để trống).
 - `0`: thoát.
 
-**Web trực quan hóa và đánh giá** (theo đề xuất nâng cấp của giảng viên): bấm đúp `web\chay_web.bat`, hoặc xem hướng dẫn đầy đủ (chạy trên máy, triển khai Render) trong [`web/README.md`](web/README.md). Web có mô phỏng từng bước đồng bộ (cây, `ds`, mã giả, ngăn xếp lời gọi, nhật ký), chế độ luyện tập, thực nghiệm theo m có biểu đồ, bộ kiểm tra tính đúng và lịch sử có nút mở lại.
+**Web trực quan hóa và đánh giá** (dựa theo bản đề xuất nâng cấp của giảng viên): bấm đúp `web\chay_web.bat`, hoặc xem hướng dẫn đầy đủ (chạy trên máy, triển khai Render) trong [`web/README.md`](web/README.md). Web có mô phỏng từng bước đồng bộ (cây, `ds`, mã giả, ngăn xếp lời gọi, nhật ký), chế độ luyện tập, thực nghiệm theo m có biểu đồ, bộ kiểm tra tính đúng và lịch sử có nút mở lại.
 
 **Chạy bản web cũ** `src/huffman_web.cpp` (tùy chọn):
 

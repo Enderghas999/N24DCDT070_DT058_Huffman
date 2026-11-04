@@ -16,6 +16,11 @@ services:
         fromDatabase:
           name: dt058-huffman-db
           property: connectionString
+      # Upstash Redis (bo nho dem): khai bao gia tri trong Render > Environment, KHONG ghi vao Git
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
 
 databases:
   - name: dt058-huffman-db
