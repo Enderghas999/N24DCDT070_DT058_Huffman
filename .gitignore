@@ -11,4 +11,5 @@ web/huffman_app.exe
 web/tests/kiem_tra.exe
 src/upstash.txt
 web/upstash.txt
-upstash.txt
+upstash.txtsrc/huffman.exe
+test/runtests.exe

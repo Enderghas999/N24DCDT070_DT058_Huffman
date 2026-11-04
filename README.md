@@ -105,7 +105,7 @@ So ca kiem thu doc lap : 12/12 PASS (0 FAIL)
 Tong so phep kiem (assert): 38/38 PASS (0 FAIL)
 ```
 
-Bản web (mục 6) chạy lại cùng 12 ca qua `/api/tests` và cho kết quả 12/12 ca, 40/40 phép kiểm. Bản web có thêm hai phép kiểm: VD01 kiểm cả bảng mã, VD02 kiểm giải mã lại `ABBA`.
+Bản web trong thư mục `web/` có bộ kiểm riêng gồm 25 ca, cho kết quả 25/25 ca, 105/105 phép kiểm (chạy bằng `web\chay_web.bat`, kết quả lưu ở `web/tests/ket_qua_kiem_tra.txt`).
 
 **Lưu ý về độ tin cậy:**
 - Các ca chỉ kiểm tra những bảng có tối đa 8 ký tự. Chưa có kiểm thử ngẫu nhiên hay đối chiếu tự động với một cài đặt Huffman độc lập.
@@ -119,15 +119,15 @@ Bản web (mục 6) chạy lại cùng 12 ca qua `/api/tests` và cho kết qu�
 N24DCDT070_DT058_DangThePhu_MaNguon/
 ├── src/
 │   ├── huffman.cpp        # Thuật toán, menu console, bộ 12 ca kiểm thử
-│   ├── huffman_web.cpp    # Bản web minh họa từng bước (máy chủ HTTP cục bộ, cổng 8080)
-│   ├── httplib.h          # cpp-httplib 0.18.3 (Yuji Hirose, giấy phép MIT), dùng cho bản web
-│   └── run_web.bat        # Biên dịch huffman_web.cpp rồi mở trình duyệt (Windows)
+│   └── huffman.exe        # Tệp thực thi của huffman.cpp
 ├── test/
 │   └── runtests.cpp       # Nạp src/huffman.cpp và gọi chay_kiem_tra()
 ├── web/                   # Web trực quan hóa và đánh giá theo đề xuất của giảng viên (xem web/README.md)
 │   ├── huffman_core.hpp   # Thuật toán tham lam có ghi vết mô phỏng
 │   ├── bo_kiem_tra.hpp    # Bộ kiểm tra tính đúng (25 ca, có nguồn đối chiếu độc lập)
 │   ├── server.cpp         # Máy chủ C++ (API, đo thời gian, lịch sử tệp/PostgreSQL)
+│   ├── upstash_cache.hpp  # Bộ nhớ đệm Upstash Redis (tùy chọn; cấu hình trong upstash.txt hoặc biến môi trường)
+│   ├── httplib.h          # cpp-httplib 0.18.3 (Yuji Hirose, giấy phép MIT)
 │   ├── public/            # Giao diện HTML/CSS/JS
 │   ├── tests/kiem_tra.cpp # Chạy bộ kiểm tra từ dòng lệnh
 │   ├── chay_web.bat       # Windows: kiểm tra + biên dịch + mở trình duyệt
@@ -170,15 +170,7 @@ g++ -O2 -std=c++17 test/runtests.cpp -o test/runtests.exe
 
 **Web trực quan hóa và đánh giá** (dựa theo bản đề xuất nâng cấp của giảng viên): bấm đúp `web\chay_web.bat`, hoặc xem hướng dẫn đầy đủ (chạy trên máy, triển khai Render) trong [`web/README.md`](web/README.md). Web có mô phỏng từng bước đồng bộ (cây, `ds`, mã giả, ngăn xếp lời gọi, nhật ký), chế độ luyện tập, thực nghiệm theo m có biểu đồ, bộ kiểm tra tính đúng và lịch sử có nút mở lại.
 
-**Chạy bản web cũ** `src/huffman_web.cpp` (tùy chọn):
-
-```powershell
-cd src
-g++ -std=c++17 -O2 -Wall huffman_web.cpp -o huffman_web.exe -lws2_32
-.\huffman_web.exe
-```
-
-Sau đó mở `http://localhost:8080`. Cũng có thể chạy `src\run_web.bat`, tệp này tự biên dịch rồi mở trình duyệt. Trên Linux, thay `-lws2_32` bằng `-lpthread`. Trang web có 5 mục: đề bài và ý tưởng, xây cây từng bước, phân tích, mã hóa/giải mã, bộ kiểm thử.
+Toàn bộ phần web nằm trong thư mục `web/`, độc lập với `src/`.
 
 ---
 

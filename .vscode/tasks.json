@@ -1,0 +1,48 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🌐 Huffman Web: Compile & Run",
+      "type": "shell",
+      "command": "cmd",
+      "args": ["/c", "${workspaceFolder}\\src\\run_web.bat"],
+      "options": {
+        "cwd": "${workspaceFolder}\\src"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new",
+        "clear": true
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "🔨 Huffman Web: Chỉ compile (không chạy)",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++17",
+        "-O2",
+        "-Wall",
+        "-o",
+        "${workspaceFolder}\\src\\huffman_web.exe",
+        "${workspaceFolder}\\src\\huffman_web.cpp",
+        "-lws2_32"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}\\src"
+      },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
+
